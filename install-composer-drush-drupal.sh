@@ -1,12 +1,12 @@
 #!/bin/bash
 
-domainName='domain'
-adminEmail='email'
-dbName='db_name'
-dbUser='db_user'
-dbPassword='db_password'
-drupalAdmin='drupal_admin'
-drupalPassword='drupal_password'
+domainName='SSdomain'
+adminEmail='SSadminEmail'
+dbName='SSdbName'
+dbUser='SSdbUser'
+dbPassword='SSdbPassword'
+drupalAdmin='SSdrupalAdmin'
+drupalPassword='SSdrupalPassword'
 
 #### INSTALL COMPOSER #########################################################
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
