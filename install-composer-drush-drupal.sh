@@ -1,7 +1,11 @@
 #!/bin/bash
 
+# <UDF name="hostname" Label="Linode's Hostname" example="examplehost" />
 # <UDF name="domain" Label="Domain" example="Domain for FQDN" />
+# <UDF name="timezone" Label="Time zone" example="eg. Europe/Oslo See https://manpages.debian.org/buster/libdatetime-timezone-perl/DateTime::TimeZone::Catalog.3pm.en.html" />
 # <UDF name="ssuser" Label="New limited user" example="username" />
+# <UDF name="sspassword" Label="Limited user's password" example="Password" />
+# <UDF name="pubkey" Label="Paste your SSH public key" />
 # <UDF name="db_name" Label="Database Name" />
 # <UDF name="db_user" Label="New user for the database" />
 # <UDF name="db_password" Label="Password for the new database user" />
@@ -21,6 +25,7 @@ cd /var/www/webapps/$DOMAIN
 echo "Directory changed to var/www/webapps/$DOMAIN"
 composer create-project --no-install drupal/recommended-project drupal
 
+cd drupal
 sed -i 's+"web-root": "web/"+"web-root": "public/"+g' composer.json
 sed -i 's+"web/core"+"public/core"+g' composer.json
 sed -i 's+"web/libraries/{$name}"+"public/libraries/{$name}"+g' composer.json
