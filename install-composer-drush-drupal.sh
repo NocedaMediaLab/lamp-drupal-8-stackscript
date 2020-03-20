@@ -10,17 +10,17 @@
 # <UDF name="email" Label="Email for your Drupal admin account" />
 
 #### INSTALL COMPOSER #########################################################
-cd /home/"$SSUSER"/
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php composer-setup.php --quiet
 rm composer-setup.php
 sudo mv composer.phar /usr/local/bin/composer
+echo "Composer is installed!"
 
 #### INSTALL DRUPAL ###########################################################
 cd /var/www/webapps/$DOMAIN
+echo "Directory changed to var/www/webapps/$DOMAIN"
 composer create-project --no-install drupal/recommended-project drupal
 
-cd drupal
 sed -i 's+"web-root": "web/"+"web-root": "public/"+g' composer.json
 sed -i 's+"web/core"+"public/core"+g' composer.json
 sed -i 's+"web/libraries/{$name}"+"public/libraries/{$name}"+g' composer.json
@@ -41,6 +41,7 @@ mkdir ./public/sites/default/files
 chmod a+w ./public/sites/default/files
 cp ./public/sites/default/default.settings.php ./public/sites/default/settings.php
 chmod a+w ./public/sites/default/settings.php
+echo "settings.php is ready."
 
 # Set trusted hosts -- this will show a warning in Drupal if it is not set.
 PARSED_DOMAIN="${DOMAIN//\./\\.}"
