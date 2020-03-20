@@ -1,17 +1,12 @@
 #!/bin/bash
 
-# <UDF name="hostname" Label="Linode's Hostname" example="examplehost" />
-# <UDF name="domain" Label="Domain" example="Domain for FQDN" />
-# <UDF name="timezone" Label="Time zone" example="eg. Europe/Oslo See https://manpages.debian.org/buster/libdatetime-timezone-perl/DateTime::TimeZone::Catalog.3pm.en.html" />
-# <UDF name="ssuser" Label="New limited user" example="username" />
-# <UDF name="sspassword" Label="Limited user's password" example="Password" />
-# <UDF name="pubkey" Label="Paste your SSH public key" />
-# <UDF name="db_name" Label="Database Name" />
-# <UDF name="db_user" Label="New user for the database" />
-# <UDF name="db_password" Label="Password for the new database user" />
-# <UDF name="drupal_admin" Label="Drupal admin username" />
-# <UDF name="drupal_password" Label="Drupal admin password" />
-# <UDF name="email" Label="Email for your Drupal admin account" />
+domainName='domain'
+adminEmail='email'
+dbName='db_name'
+dbUser='db_user'
+dbPassword='db_password'
+drupalAdmin='drupal_admin'
+drupalPassword='drupal_password'
 
 #### INSTALL COMPOSER #########################################################
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
@@ -21,8 +16,8 @@ sudo mv composer.phar /usr/local/bin/composer
 echo "Composer is installed!"
 
 #### INSTALL DRUPAL ###########################################################
-cd /var/www/webapps/$DOMAIN
-echo "Directory changed to var/www/webapps/$DOMAIN"
+cd /var/www/webapps/$domainName
+echo "Directory changed to var/www/webapps/$domainName"
 composer create-project --no-install drupal/recommended-project drupal
 
 cd drupal
@@ -49,7 +44,7 @@ chmod a+w ./public/sites/default/settings.php
 echo "settings.php is ready."
 
 # Set trusted hosts -- this will show a warning in Drupal if it is not set.
-PARSED_DOMAIN="${DOMAIN//\./\\.}"
+PARSED_DOMAIN="${domainName//\./\\.}"
 cat <<END >> ./public/sites/default/settings.php
 \$settings['trusted_host_patterns'] = array(
    '^$PARSED_DOMAIN$',
@@ -70,11 +65,11 @@ END
 
 cd public
 drush site-install \
---db-url="mysql://$DB_USER:$DB_PASSWORD@localhost:3306/$DB_NAME" \
---account-name="$DRUPAL_ADMIN" \
---account-pass="$DRUPAL_PASSWORD" \
---account-mail="$EMAIL" \
---site-name="$DOMAIN" \
---site-mail="noreply@$DOMAIN" -y
+--db-url="mysql://$dbUser:$dbPassword@localhost:3306/$dbName" \
+--account-name="$drupalAdmin" \
+--account-pass="$drupalPassword" \
+--account-mail="$adminEmail" \
+--site-name="$domainName" \
+--site-mail="noreply@$domainName" -y
 
 drush en -y admin_toolbar admin_toolbar_tools admin_toolbar_links_access_filter memcache memcache_admin
