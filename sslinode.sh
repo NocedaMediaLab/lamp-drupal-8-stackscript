@@ -23,8 +23,6 @@
 # <UDF name="drupal_locale" label="Drupal Default Language" default="en" example="Language code. Defaults to en(English). See https://git.io/Jv9WS for supported languages and their language codes." />
 
 
-exec 1> >(tee -a "/var/log/stackscript.log") 2>&1
-
 #### SYSTEM UPGRADE ###########################################################
 apt-get -o Acquire::ForceIPv4=true update
 DEBIAN_FRONTEND=noninteractive apt-get -y upgrade
