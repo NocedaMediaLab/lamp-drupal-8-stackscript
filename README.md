@@ -1,6 +1,14 @@
 # HTTP/2 LAMP stack with Apache, MariaDB, PHP 7.3 (php-fpm), Acme (SSL), Git, Composer, Drush, and Drupal 8
 
-A Linode StackScript compatible with Debian 10+ and Ubuntu 19.10+ 
+A Linode StackScript compatible with Debian 10+ and Ubuntu 19.10+
+
+### Requirements
+- Debian 10+ and Ubuntu 19.10+
+- Linode with at least 2GB ram.
+- User has SSH public and private keys on local computer
+
+## Deployment details
+
 
 ### Security
 - UFW and Fail2Ban
@@ -27,7 +35,7 @@ A Linode StackScript compatible with Debian 10+ and Ubuntu 19.10+
 
 ***Please wait at least 10 minutes for all the scripts and commands to run before logging in.***
 
-### Post-installation
+## Post-installation
 - Install an SSL certificate, run 'acme.sh --help' for details.
 - Disable default site 'sudo a2dissite 000-default.conf'
 - For creation of more virtualhosts, a global script has been installed. See https://github.com/NocedaMediaLab/virtualhost for more details.
