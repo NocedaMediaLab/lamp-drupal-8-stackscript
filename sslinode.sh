@@ -55,11 +55,11 @@ adduser "${SSUSER}" sudo >/dev/null
 
 #### ADD PUBKEY FOR USER ######################################################
 echo "Adding SSH public key for ${SSUSER}."
-mkdir -p "/home/${SSUSER}/.ssh"
-chmod -R 700 "/home/${SSUSER}/.ssh/"
-echo "${PUBKEY}" >> "/home/${SSUSER}/.ssh/authorized_keys"
-chown -R "${SSUSER}:${SSUSER} /home/${SSUSER}/.ssh"
-chmod 600 "/home/${SSUSER}/.ssh/authorized_keys"
+mkdir -p /home/"${SSUSER}"/.ssh
+chmod -R 700 /home/"${SSUSER}"/.ssh/
+echo "${PUBKEY}" >> /home/"${SSUSER}"/.ssh/authorized_keys
+chmod 600 /home/"${SSUSER}"/.ssh/authorized_keys
+chown -R "${SSUSER}":"${SSUSER}" /home/"${SSUSER}"/.ssh
 
 
 #### INSTALL UFW AND CONFIGURE BASIC RULES ####################################
@@ -398,11 +398,13 @@ sed -i "s+publicDir='web'+publicDir='${PROJECT_DIR}/${DRUPAL_DIR}'+g" /usr/local
 chmod +x /usr/local/bin/virtualhost
 
 
-#### RESTART APACHE AND PHP-FPM ###############################################
-#### Add info.php for default to check installation
+#### POST-INSTALL #############################################################
+# Add info.php for default to allow checking of PHP
 echo "<?php phpinfo(); ?>" > /var/www/html/info.php
+# Restart services
 systemctl restart php7.3-fpm
 systemctl restart apache2
+systemctl restart ssh
 
 #### CLEAN-UP #################################################################
 su -c "rm /home/\"${SSUSER}\"/install-composer-drush-drupal.sh" - "${SSUSER}"
